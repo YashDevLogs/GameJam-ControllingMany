@@ -21,6 +21,8 @@ public class bossManager : MonoBehaviour
     public int Health;
     public GameObject Particle_Death;
     public float maxDistance, minDistance;
+    public GameObject GameOverPanel;
+    public GameObject GameWonPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +36,7 @@ public class bossManager : MonoBehaviour
         BossAnimator = GetComponent<Animator>();
         BossIsAlive = true;
 
-        HealthBar.value = HealthBar.maxValue = Health = 200;
+        HealthBar.value = HealthBar.maxValue = Health ;
 
         Health_bar_amount.text = Health.ToString();
     }
@@ -79,12 +81,16 @@ public class bossManager : MonoBehaviour
         {
             BossAnimator.SetBool("fight", false);
             BossAnimator.SetFloat("attackmode", 3f);
+            GameOverPanel.SetActive(true);
+
         }
 
         if (Health <= 0 && BossIsAlive)
         {
             gameObject.SetActive(false);
             BossIsAlive = false;
+            Instantiate(Particle_Death, transform.position, Quaternion.identity);
+            GameWonPanel.SetActive(true);
         }
     }
 

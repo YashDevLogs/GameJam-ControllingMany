@@ -91,10 +91,20 @@ public class memberManager : MonoBehaviour
             {
                 Instantiate(Particle_Death, transform.position, Quaternion.identity);
 
-                gameObject.SetActive(false);
-               
+                if (gameObject.name != PlayerManager.PlayerManagerCls.Rblst.ElementAt(0).name)
+                {
+                    gameObject.SetActive(false);
+                    transform.parent = null;
+                }
+                else
+                {
+                    _capsuleCollider.enabled = false;
+                    transform.GetChild(0).gameObject.SetActive(false);
+                    transform.GetChild(1).gameObject.SetActive(false);
+                }
 
-                for(int i = 0; i <bossManager.BossManagerCls.Enemies.Count; i++)
+
+                for (int i = 0; i <bossManager.BossManagerCls.Enemies.Count; i++)
                 {
                     if(bossManager.BossManagerCls.Enemies.ElementAt(i).name == gameObject.name)
                     {
@@ -107,6 +117,24 @@ public class memberManager : MonoBehaviour
             }
 
         }
+        if (other.collider.CompareTag("obstacle"))
+        {
+            Instantiate(Particle_Death, transform.position, Quaternion.identity);
+
+            gameObject.SetActive(false);
+            transform.parent = null;
+
+            for (int i = 0; i < bossManager.BossManagerCls.Enemies.Count; i++)
+            {
+                if (bossManager.BossManagerCls.Enemies.ElementAt(i).name == gameObject.name)
+                {
+                    bossManager.BossManagerCls.Enemies.RemoveAt(i);
+                    break;
+
+                }
+            }
+        }
+
     }
 
 
